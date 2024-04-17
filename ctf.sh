@@ -191,7 +191,11 @@ elif [[ $c_optn == "2" ]];then
 		echo "file not found update the tool"
 	fi
 elif [[ $c_optn == "3" ]];then 
-	echo "reverse Engineering"
+	if [[ -f .pkctf/reverse ]];then
+		display_manue reverse
+	else
+		echo "File not found update the tool"
+	fi
 elif [[ $c_optn == "4" ]];then 
 	# first check if file is exist or not 
 	if [[ -f .pkctf/cryptography ]];then
