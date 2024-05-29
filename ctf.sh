@@ -1,7 +1,7 @@
 #!/usr/bin/bash 
-#This tool is made by prince kumar 
-#date 20 jun 2023 
-# If are copying any part of the script give me the credit ..
+#This tool is made by Prince Kumar 
+#date 20 Jun 2023 
+# If you are copying any part of the script give me the credit ..
 # Trap the signal 
 trap user_inttrupt SIGINT
 trap user_inttrupt SIGTERM
@@ -59,16 +59,16 @@ display_manue all
 }
 # Make a function for the About me 
 about_me(){
-echo -e "\e[32;1m Hi there , i am Prince Kumar a junior mechanical enginner. i am intrested in cyber security."
+echo -e "\e[32;1m Hi there , i am Prince Kumar a junior mechanical enginner. I am interested in cyber security."
 echo -e "\e[32;1m Here is my social media links if you want to contact me."
 echo -e "\e[30;1m Instagram : https://instagram.com/princekrvert \n Facebook : https://facebook.com/princekrvert \n Telegram : t.me/princekrvert"
 }
-# make a function to remove the wrong ans from the six field ....
+# make a function to remove the wrong ans from the six fields....
 remove_w_ans(){
-# let suppose $1 file name and $2 is the line number 
+# let's suppose $1 file name and $2 is the line number 
 f_line=$(head -$2 $1 | tail +$2)
 six_field=$( echo $f_line | awk '{ printf $6 }')
-# now remove the this text form that line use sed to do that 
+# now remove this text form that line use sed to do that 
 sed -i -e $2"s/${six_field}/ /" $1
 
 }
@@ -103,7 +103,7 @@ echo -ne "\033[31;1m⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 echo ""
 }
 banner
-# make a function to take the line number and host the file and and see the discription 
+# make a function to take the line number host the file and see the description 
 display_challange(){
 full_line=$(head -$1 $2 | tail +$1)
 name_of_challange=$( echo $full_line | awk '{ printf $1 }')
