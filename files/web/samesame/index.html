@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Design with Dropdowns</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-image: linear-gradient(to bottom right, #f0f0f0, #e0e0e0);
+    }
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .nav {
+      display: flex; /* Arrange navigation items horizontally */
+    }
+    .nav-item {
+      margin-right: 20px;
+      position: relative; /* Needed for dropdown positioning */
+    }
+    .nav-link {
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #333;
+    }
+    .nav-link:hover {
+      background-color: #f0f0f0;
+    }
+    .dropdown {
+      position: absolute; /* Dropdown menu positioning */
+      top: 100%; /* Positions below the navigation link */
+      left: 0;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      display: none; /* Initially hidden */
+    }
+    .nav-item:hover .dropdown {  /* Show dropdown on hover */
+      display: block;
+    }
+    .dropdown-item {
+      padding: 5px 10px;
+      text-decoration: none;
+      color: #333;
+    }
+    .dropdown-item:hover {
+      background-color: #f0f0f0;
+    }
+    /* Style for the invisible text */
+    .invisible {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      color: transparent; /* Makes text invisible */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>This is Hack Me CTF </h1>
+    <nav class="nav">
+      <div class="nav-item">
+        <a href="#" class="nav-link">Home</a>
+      </div>
+      <div class="nav-item">
+        <a href="#" class="nav-link">About Us</a>
+        <ul class="dropdown">  <li><a href="#" class="dropdown-item">Our Story</a></li>
+          <li><a href="#" class="dropdown-item">Our Team</a></li>
+        </ul>
+      </div>
+      <div class="nav-item">
+        <a href="#" class="nav-link">Products</a>
+        <ul class="dropdown">  <li><a href="#" class="dropdown-item">Product Category 1</a></li>
+          <li><a href="#" class="dropdown-item">Product Category 2</a></li>
+        </ul>
+      </div>
+      <div class="nav-item">
+        <a href="#" class="nav-link">Contact</a>
+      </div>
+    </nav>
+    <p class="content">Hi hackers, you are so close to the flag keep going.</p>
+    <p class="invisible">Hackme{hidden_text}</p>
+  </div>
+</body>
+</html>
+
