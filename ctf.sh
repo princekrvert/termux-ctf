@@ -16,11 +16,16 @@ os=$(uname -o)
 if [[ $os == "Android" ]];then
 	command -v go > /dev/null 2>&1 || { echo -e "\e[32;1m Installing golang "; pkg install golang -y ;}
 	command -v php > /dev/null 2>&1 || { echo -e "\e[32;1m Installing php" ; pkg install php -y; }
+	command -v gum > /dev/null 2>&1 || { echo -e "\e[32;1m Installing gum" ; pkg install gum -y; }
 
 
 else
 	command -v go > /dev/null 2>&1 || { echo -e "\033;32;1m Installing golang "; sudo apt install golang -y ;}
 	command -v php > /dev/null 2>&1 || { echo -e "\e[32;1m Installing php" ; sudo apt install php -y; }
+	command -v php > /dev/null 2>&1 || { echo -e "\e[32;1m Installing php" ;sudo mkdir -p /etc/apt/keyrings;
+curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg;
+echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list;
+sudo apt update && sudo apt install gum;}
 
 
 fi
@@ -36,7 +41,10 @@ gen_hash(){
 if [[ -f hash/main ]];then
 	echo -ne ""
 else
-	echo -e "\033[32;1m Generating some require binary files.."
+	gum style \
+	--foreground 212 --border-foreground 212 --border normal \
+	--align center --width 50 --margin "1 2" --padding "2 4" \
+	'Generating some binary '
 	c_dir=$(pwd)
 	cd hash 
 	go build main.go 
@@ -113,11 +121,11 @@ echo -ne "\033[32;1m [~] \033[33;1m $name_of_challange \033[32;1m [~] \n"
 echo -e "\e[35;1m $discription_of_challange "
 # host the file name 
 ran=$((RANDOM % 10))
-echo -e "\033[35;1m Starting the server please wait"
+
+gum spin --spinner dot --title "Starting server" -- sleep 3
 php -S 127.0.0.1:8${ran}6${ran} -t $location > /dev/null 2>&1 & sleep 5
 echo -e "\033[36;1m Server running on http://127.0.0.1:8${ran}6${ran} "
-echo -ne "\033[32;1m Your answer: "
-read u_ans 
+u_ans=$(gum input --placeholder "Your answer")
 # now check for the user ans ..
 third_field=$( echo $full_line | awk '{ printf $3 }')
 ans_given=$(./hash/main sha256 $u_ans)
@@ -169,43 +177,39 @@ display_challange $c_option .pkctf/$1
 # make a function to categoty .
 category(){
 clear 
-echo -e "\033[32;1m[1] \033[31;1m Forensics"
-echo -e "\033[32;1m[2] \033[31;1m Web exploitation"
-echo -e "\033[32;1m[3] \033[31;1m Reverse Engineering"
-echo -e "\033[32;1m[4] \033[31;1m Cryptography"
-echo -e "\033[32;1m[5] \033[31;1m Binary exploitation"
-echo -e "\033[32;1m[6] \033[31;1m Previous manue"
-read c_optn
+
+c_optn=$(gum choose "Forensics" "Web exploitation" "Reverse Engineering" "Cryptography" "Binary exploitaion" "Previous manue")
+
 # now check the user option I
-if [[ $c_optn == "1" ]];then
+if [[ $c_optn == "Forensics" ]];then
 	if [[ -f .pkctf/forensic ]];then
 		# now disply the manue 
 		display_manue forensic
 	else
 		echo "file not found"
 	fi
-elif [[ $c_optn == "2" ]];then 
+elif [[ $c_optn == "Web exploitation" ]];then 
 	if [[ -f .pkctf/web ]];then
 		display_manue web
 	else
 		echo "file not found update the tool"
 	fi
-elif [[ $c_optn == "3" ]];then 
+elif [[ $c_optn == "Reverse Engineering" ]];then 
 	if [[ -f .pkctf/reverse ]];then
 		display_manue reverse
 	else
 		echo "File not found update the tool"
 	fi
-elif [[ $c_optn == "4" ]];then 
+elif [[ $c_optn == "Cryptography" ]];then 
 	# first check if file is exist or not 
 	if [[ -f .pkctf/cryptography ]];then
 		display_manue cryptography 
 	else
 		echo -ne "Some file removed please update the tool .."
 	fi
-elif [[ $c_optn == "5" ]];then 
+elif [[ $c_optn == "Binary exploitaion" ]];then 
 	echo "Binary explotation called"
-elif [[ $c_optn == "6" ]];then 
+elif [[ $c_optn == "Previous manue" ]];then 
 	main_m
 else 
 	echo -ne "\033[31;1m Invalid option "
@@ -216,24 +220,19 @@ fi
 main_m(){
 echo -ne "\033[32;1m[~] \033[0;1m Choose :"
 echo ""
-echo -e "\033[35;1m[1] \033[33;0m All "
-echo -e "\033[35;1m[2] \033[33;0m Category"
-echo -e "\033[35;1m[3] \033[33;0m Update "
-echo -e "\033[35;1m[4] \033[33;0m About me"
-echo -e "\033[35;1m[5] \033[33;0m Exit"
+user_f=$(gum choose "All" "Category" "Update" "About me" "Exit")
 # NOw read the answer form the user
-read user_f
-if [[ $user_f == "1" ]];then
+if [[ $user_f == "All" ]];then
 	all_c
-elif [[ $user_f == "2" ]];then 
+elif [[ $user_f == "Category" ]];then 
 	# show to category to solve to the user
 	category
-elif [[ $user_f == "3" ]];then
+elif [[ $user_f == "Update" ]];then
 	echo -e "\033[30;1m Updating the tool.."
 	update_me
-elif [[ $user_f == "4" ]];then
+elif [[ $user_f == "About me" ]];then
 	about_me
-elif [[ $user_f == "5" ]];then 
+elif [[ $user_f == "Exit" ]];then 
 	echo -e "\033[30;1m Exit"
 else 
 	echo -e "\033[31;1m Invalid input Exiting.. "
